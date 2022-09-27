@@ -164,7 +164,7 @@ __weak void StartMonitorTask(void const * argument)
 //	  Send_CHAS_Array[0] = 4000;
 //	  Send_CHAS_Array[1] = 1000;
 //	  CAN_SendData(&hcan1,0x1ff,Send_CHAS_Array);
-	  
+	  Motor_Send();
 	  osDelay(1);
   }
   /* USER CODE END StartMonitorTask */

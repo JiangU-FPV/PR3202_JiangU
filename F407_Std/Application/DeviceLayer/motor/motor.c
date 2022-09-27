@@ -1,24 +1,24 @@
+/**
+ * @file        motor.c
+ * @author      JiangU
+ * @Version     V1.0
+ * @date        27-September-2022
+ * @brief       Robomaster motor device(M3508 and GM6020, Based on HAL).
+ */
+
+/* Includes ------------------------------------------------------------------*/
 #include "motor.h"
 #include "stdio.h"
 #include "drv_can.h"
-//CAN_TxHeaderTypeDef CAN1_TxHander;
-//CAN_RxHeaderTypeDef RxHeader;
 
-//uint8_t motor_recvBuf[8];//接收数组
-//int16_t dog;
-//int16_t speed=200;
-
-
-drv_can_t GM6020_can={
-	.type=DRV_CAN1,
-	.can_id=GIMBAL_CAN_ID_PITCH,
-	.tx_data = CAN_SendSingleData,
-};
-
+/* Private variables ---------------------------------------------------------*/
 int16_t Send_CHAS_Array[4]; 
 int16_t Send_GIMB_Array[4]; 
 
-GM6020_data_t GM6020_data[2];
+GM6020_data_t 	GM6020_data[2];
+M3508_data_t 	M3508_data[4];
+
+/* Private functions ---------------------------------------------------------*/
 
 void Motor_Init(void)
 {
@@ -26,14 +26,12 @@ void Motor_Init(void)
 	CAN2_Init();
 }
 
-
 /**
  *	@brief	CAN 发送单独数据
  */
 void CAN_SendSingleData(drv_can_t *drv, int16_t txData)
 {
 	int16_t txArr[4] = {0, 0, 0, 0};
-
 	txArr[drv->drv_id] = txData;
 	if(drv->type == DRV_CAN1)
 		CAN1_SendData(drv->std_id, txArr);
@@ -41,8 +39,27 @@ void CAN_SendSingleData(drv_can_t *drv, int16_t txData)
 		CAN2_SendData(drv->std_id, txArr);
 }
 
+/**
+ *	@brief	接收处理函数
+ */
 void CAN1_rxDataHandler(uint32_t canId, uint8_t *rxBuf)
 {
+	if(canId==CHASSIS_MOTOR_FL)
+	{
+		CHASSIS_Motor_Update(&M3508_data[0],rxBuf);
+	}
+	if(canId==CHASSIS_MOTOR_RL)
+	{
+		CHASSIS_Motor_Update(&M3508_data[1],rxBuf);
+	}
+	if(canId==CHASSIS_MOTOR_RR)
+	{
+		CHASSIS_Motor_Update(&M3508_data[2],rxBuf);
+	}
+	if(canId==CHASSIS_MOTOR_FR)
+	{
+		CHASSIS_Motor_Update(&M3508_data[3],rxBuf);
+	}
 	if(canId==GIMBAL_CAN_ID_PITCH)
 	{
 		GIMBAL_Motor_Update(&GM6020_data[0],rxBuf);
@@ -51,16 +68,34 @@ void CAN1_rxDataHandler(uint32_t canId, uint8_t *rxBuf)
 	{
 		GIMBAL_Motor_Update(&GM6020_data[1],rxBuf);
 	}
-	
 }	
 
-
-void Motor_Send()
+/**
+ *	@brief	电机发送
+ */
+void Motor_Send(void)
 {
+	for (int i = 0; i < 4; i++)
+	{
+		Send_CHAS_Array[i] = M3508_data[i].send_current;
+	}
+	for (int i = 0; i < 2; i++)
+	{
+		Send_GIMB_Array[i] = GM6020_data[i].send_voltage;
+	}
 	CAN_SendData(&hcan1,CHASSIS_MOTOR_STD,Send_CHAS_Array);
 	CAN_SendData(&hcan1,GIMBAL_MOTOR_STD,Send_GIMB_Array);
 }
 
+/**
+ *	@brief	电机回传函数更新
+ */
+void CHASSIS_Motor_Update(M3508_data_t *M3508_data, uint8_t *rxBuf)
+{
+	M3508_data->angle		=	CAN_GetMotorAngle(rxBuf);
+	M3508_data->rpm			=	CAN_GetMotorSpeed(rxBuf);
+	M3508_data->current		=	CAN_GetMotorCurrent(rxBuf);
+}
 void GIMBAL_Motor_Update(GM6020_data_t *GM6020_data, uint8_t *rxBuf)
 {
 	GM6020_data->angle		=	CAN_GetMotorAngle(rxBuf);
@@ -68,7 +103,9 @@ void GIMBAL_Motor_Update(GM6020_data_t *GM6020_data, uint8_t *rxBuf)
 	GM6020_data->current	=	CAN_GetMotorCurrent(rxBuf);
 }
 
-
+/**
+ *	@brief	电机获取转子角度、转速、电流
+ */
 uint16_t CAN_GetMotorAngle(uint8_t *rxData)
 {
 	uint16_t angle;
@@ -87,6 +124,13 @@ int16_t CAN_GetMotorCurrent(uint8_t *rxData)
 	current = ((int16_t)rxData[4] << 8 | rxData[5]);
 	return current;
 }
+
+
+
+
+/**
+ *	@brief	旧函数
+ */
 ////电机更新函数
 //void Motor_Update(int16_t speed,CAN_TxHeaderTypeDef CAN1_TX)
 //{
