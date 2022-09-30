@@ -58,3 +58,5 @@ f407_std\freertos.o: ..\Application\PotocolLayer\imu_potocol.h
 f407_std\freertos.o: ..\Application\DeviceLayer\motor\motor.h
 f407_std\freertos.o: ../Core/Inc/can.h
 f407_std\freertos.o: ..\Application\DriverLayer\drv_can.h
+f407_std\freertos.o: ..\Application\DeviceLayer\Rpcan\rp_can.h
+f407_std\freertos.o: ..\Application\AlgorithmLayer\dji_pid.h

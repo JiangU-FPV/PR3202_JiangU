@@ -12,8 +12,8 @@
 "f407_std\main.o"
 "f407_std\gpio.o"
 "f407_std\freertos.o"
-"f407_std\adc.o"
 "f407_std\can.o"
+"f407_std\adc.o"
 "f407_std\dac.o"
 "f407_std\dma.o"
 "f407_std\tim.o"
@@ -57,6 +57,8 @@
 "f407_std\imu_potocol.o"
 "f407_std\imu_sensor.o"
 "f407_std\motor.o"
+"f407_std\rp_can.o"
+"f407_std\dji_pid.o"
 "f407_std\rp_math.o"
 --library_type=microlib --strict --scatter "F407_Std\F407_Std.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols

@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx,USE_STDPERIPH_DRIVER,ARM_MATH_CM4,__CC_ARM,ARM_MATH_M</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\Drivers\CMSIS\DSP\Include;..\Application\PotocolLayer;..\Application\DeviceLayer\Imu;..\Application\DriverLayer;..\Application\DeviceLayer\Sensor;..\Application\ConfigLayer;..\Application\AlgorithmLayer;..\Application\DeviceLayer\motor</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\Drivers\CMSIS\DSP\Include;..\Application\PotocolLayer;..\Application\DeviceLayer\Imu;..\Application\DriverLayer;..\Application\DeviceLayer\Sensor;..\Application\ConfigLayer;..\Application\AlgorithmLayer;..\Application\DeviceLayer\motor;..\Application\DeviceLayer\Rpcan</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -464,9 +464,9 @@
               <FilePath>../Core/Src/freertos.c</FilePath>
             </File>
             <File>
-              <FileName>adc.c</FileName>
+              <FileName>can.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Core/Src/adc.c</FilePath>
+              <FilePath>../Core/Src/can.c</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -520,9 +520,9 @@
               </FileOption>
             </File>
             <File>
-              <FileName>can.c</FileName>
+              <FileName>adc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Core/Src/can.c</FilePath>
+              <FilePath>../Core/Src/adc.c</FilePath>
               <FileOption>
                 <CommonProperty>
                   <UseCPPCompiler>2</UseCPPCompiler>
@@ -1375,6 +1375,16 @@
               <FileName>motor.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Application\DeviceLayer\motor\motor.c</FilePath>
+            </File>
+            <File>
+              <FileName>rp_can.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DeviceLayer\Rpcan\rp_can.c</FilePath>
+            </File>
+            <File>
+              <FileName>dji_pid.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\AlgorithmLayer\dji_pid.c</FilePath>
             </File>
           </Files>
         </Group>

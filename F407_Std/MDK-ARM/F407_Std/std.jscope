@@ -6,12 +6,12 @@
             <JLink>
                 <Options Connection="1" IsRTTSession="0" IsRTTWithTimeStamp="1" SamplingPeriod="100" SerialNo="0" JTAG_IRPre="-1" JTAG_DRPre="-1" IP="" TargetDevice="Cortex-M4" TargetInterface="SWD" InterfaceSpeed="4000" />
             </JLink>
-            <ScriptFile Name="C:\Users\JiangU\Desktop\F407_Std\MDK-ARM\F407_Std\std.jscope\unspecified" />
-            <ElfFile Name="C:\Users\JiangU\Desktop\F407_Std\MDK-ARM\F407_Std\F407_Std.axf" />
+            <ScriptFile Name="F:\Keil_Project\PR3202_JiangU\F407_Std\MDK-ARM\F407_Std\std.jscope\unspecified" />
+            <ElfFile Name="F:\Keil_Project\PR3202_JiangU\F407_Std\MDK-ARM\F407_Std\F407_Std.axf" />
             <DataFile Name="" />
             <RawFile Name="" />
             <Scope>
-                <Options TimeResolutionUs="50000" />
+                <Options TimeResolutionUs="200000" />
             </Scope>
         </Configuration>
         <Windows>
@@ -20,10 +20,16 @@
         </Windows>
         <SelectedSymbols>
             <Symbol>
-                <Options Name="accx" Address="0x2000010A" Type="short" TypeID="11" Size="2" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="-25147" YMaxSampled="13757" YAvgSampled="-3398" Offset="4" ShowInGraph="1" ACCoupling="0" YOffset="770" IsAutoConfig="0" YResolution="5000" MaxValue="20000" File="..\Application\PotocolLayer\imu_potocol.c" Scope="0" DrawStyle="0" />
+                <Options Name="real_speed_watch" Address="0x20000086" Type="short" TypeID="11" Size="2" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="-8476" YMaxSampled="8479" YAvgSampled="-82" Offset="4" ShowInGraph="0" ACCoupling="0" YOffset="200" IsAutoConfig="0" YResolution="1000" MaxValue="1000" File="..\Application\DeviceLayer\motor\motor.c" Scope="0" DrawStyle="0" />
             </Symbol>
             <Symbol>
-                <Options Name="lpfdata" Address="0x20000080" Type="float" TypeID="1" Size="4" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="-23176" YMaxSampled="10658" YAvgSampled="-3388" Offset="6" ShowInGraph="1" ACCoupling="0" YOffset="480" IsAutoConfig="0" YResolution="5000" MaxValue="40000" File="../Core/Src/freertos.c" Scope="0" DrawStyle="0" />
+                <Options Name="set_speed_watch" Address="0x20000084" Type="short" TypeID="11" Size="2" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="-8000" YMaxSampled="8000" YAvgSampled="-85" Offset="6" ShowInGraph="0" ACCoupling="0" YOffset="200" IsAutoConfig="0" YResolution="1000" MaxValue="1000" File="..\Application\DeviceLayer\motor\motor.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="set_degree_watch" Address="0x20000088" Type="int" TypeID="12" Size="4" GraphColorRed="102" GraphColorGreen="102" GraphColorBlue="178" YMinSampled="-200000" YMaxSampled="200000" YAvgSampled="-60499" Offset="8" ShowInGraph="1" ACCoupling="0" YOffset="400" IsAutoConfig="0" YResolution="50000" MaxValue="100000" File="..\Application\DeviceLayer\motor\motor.c" Scope="0" DrawStyle="0" />
+            </Symbol>
+            <Symbol>
+                <Options Name="real_degree_watch" Address="0x2000008C" Type="int" TypeID="12" Size="4" GraphColorRed="160" GraphColorGreen="32" GraphColorBlue="240" YMinSampled="-200591" YMaxSampled="210798" YAvgSampled="-57934" Offset="12" ShowInGraph="1" ACCoupling="0" YOffset="400" IsAutoConfig="0" YResolution="50000" MaxValue="40000" File="..\Application\DeviceLayer\motor\motor.c" Scope="0" DrawStyle="0" />
             </Symbol>
         </SelectedSymbols>
     </Project>

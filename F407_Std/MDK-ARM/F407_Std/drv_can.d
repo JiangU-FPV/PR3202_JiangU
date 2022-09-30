@@ -37,7 +37,7 @@ f407_std\drv_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 f407_std\drv_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 f407_std\drv_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 f407_std\drv_can.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-f407_std\drv_can.o: ..\Application\AlgorithmLayer\rp_math.h
-f407_std\drv_can.o: ..\Application\AlgorithmLayer\pid.h
 f407_std\drv_can.o: ..\Application\ConfigLayer\rp_config.h
 f407_std\drv_can.o: D:\TOOL\C51\ARM\ARMCC\Bin\..\include\stdbool.h
+f407_std\drv_can.o: ..\Application\AlgorithmLayer\rp_math.h
+f407_std\drv_can.o: ..\Application\AlgorithmLayer\pid.h

@@ -42,4 +42,6 @@ f407_std\motor.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 f407_std\motor.o: ..\Application\DriverLayer\drv_can.h
 f407_std\motor.o: ..\Application\ConfigLayer\rp_config.h
 f407_std\motor.o: D:\TOOL\C51\ARM\ARMCC\Bin\..\include\stdbool.h
+f407_std\motor.o: ..\Application\DeviceLayer\Rpcan\rp_can.h
+f407_std\motor.o: ..\Application\AlgorithmLayer\dji_pid.h
 f407_std\motor.o: D:\TOOL\C51\ARM\ARMCC\Bin\..\include\stdio.h

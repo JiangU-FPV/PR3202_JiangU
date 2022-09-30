@@ -70,3 +70,5 @@ f407_std\main.o: D:\TOOL\C51\ARM\ARMCC\Bin\..\include\math.h
 f407_std\main.o: ..\Application\DriverLayer\drv_io.h
 f407_std\main.o: ..\Application\DeviceLayer\motor\motor.h
 f407_std\main.o: ..\Application\DriverLayer\drv_can.h
+f407_std\main.o: ..\Application\DeviceLayer\Rpcan\rp_can.h
+f407_std\main.o: ..\Application\AlgorithmLayer\dji_pid.h
