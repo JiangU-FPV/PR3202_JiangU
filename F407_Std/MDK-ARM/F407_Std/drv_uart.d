@@ -1,5 +1,5 @@
-f407_std\drv_uart.o: ..\Application\DeviceLayer\DriverLayer\drv_uart.c
-f407_std\drv_uart.o: ..\Application\DeviceLayer\DriverLayer\drv_uart.h
+f407_std\drv_uart.o: ..\Application\DriverLayer\drv_uart.c
+f407_std\drv_uart.o: ..\Application\DriverLayer\drv_uart.h
 f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 f407_std\drv_uart.o: ../Core/Inc/stm32f4xx_hal_conf.h
 f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h
@@ -23,6 +23,12 @@ f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_exti.h
 f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma.h
 f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dma_ex.h
 f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_cortex.h
+f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc.h
+f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_adc.h
+f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_adc_ex.h
+f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_can.h
+f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dac.h
+f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_dac_ex.h
 f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash.h
 f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ex.h
 f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_flash_ramfunc.h
@@ -30,4 +36,5 @@ f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr.h
 f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pwr_ex.h
 f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
+f407_std\drv_uart.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 f407_std\drv_uart.o: D:\TOOL\C51\ARM\ARMCC\Bin\..\include\string.h

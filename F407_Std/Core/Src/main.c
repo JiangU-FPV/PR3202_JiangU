@@ -33,6 +33,9 @@
 #include "imu_sensor.h"
 #include "bmi.h"
 #include "motor.h"
+#include "drv_uart.h"
+#include "device.h"
+#include "driver.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -97,17 +100,21 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_DMA_Init();
-  MX_ADC1_Init();
+  MX_TIM3_Init();
+  MX_USART2_UART_Init();
   MX_CAN1_Init();
   MX_CAN2_Init();
-  MX_DAC_Init();
   MX_TIM1_Init();
-  MX_TIM3_Init();
+  MX_ADC1_Init();
+  MX_DAC_Init();
   MX_UART4_Init();
   MX_UART5_Init();
   MX_USART1_UART_Init();
-  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+	// 驱动层初始化
+	DRIVER_Init();
+	// 设备层初始化
+  DEV_Init();
   Motor_Init();
 //imu_sensor_init(&imu_sensor);
   /* USER CODE END 2 */

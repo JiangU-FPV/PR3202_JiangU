@@ -72,3 +72,10 @@ f407_std\main.o: ..\Application\DeviceLayer\motor\motor.h
 f407_std\main.o: ..\Application\DriverLayer\drv_can.h
 f407_std\main.o: ..\Application\DeviceLayer\Rpcan\rp_can.h
 f407_std\main.o: ..\Application\AlgorithmLayer\dji_pid.h
+f407_std\main.o: ..\Application\DriverLayer\drv_uart.h
+f407_std\main.o: ..\Application\DeviceLayer\device.h
+f407_std\main.o: ..\Application\DeviceLayer\Sensor\rc_sensor.h
+f407_std\main.o: ..\Application\DriverLayer\driver.h
+f407_std\main.o: ..\Application\DriverLayer\drv_haltick.h
+f407_std\main.o: ..\Application\DriverLayer\drv_tim.h
+f407_std\main.o: ..\Application\DriverLayer\drv_adda.h

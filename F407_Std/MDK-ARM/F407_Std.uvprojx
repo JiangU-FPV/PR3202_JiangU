@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx,USE_STDPERIPH_DRIVER,ARM_MATH_CM4,__CC_ARM,ARM_MATH_M</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\Drivers\CMSIS\DSP\Include;..\Application\PotocolLayer;..\Application\DeviceLayer\Imu;..\Application\DriverLayer;..\Application\DeviceLayer\Sensor;..\Application\ConfigLayer;..\Application\AlgorithmLayer;..\Application\DeviceLayer\motor;..\Application\DeviceLayer\Rpcan</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\Drivers\CMSIS\DSP\Include;..\Application\PotocolLayer;..\Application\DeviceLayer\Imu;..\Application\DriverLayer;..\Application\DeviceLayer\Sensor;..\Application\ConfigLayer;..\Application\AlgorithmLayer;..\Application\DeviceLayer\motor;..\Application\DeviceLayer\Rpcan;..\Application\DeviceLayer</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -442,6 +442,16 @@
               <FileName>drv_can.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Application\DriverLayer\drv_can.c</FilePath>
+            </File>
+            <File>
+              <FileName>drv_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DriverLayer\drv_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DriverLayer\driver.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1361,6 +1371,11 @@
               <FileType>1</FileType>
               <FilePath>..\Application\PotocolLayer\imu_potocol.c</FilePath>
             </File>
+            <File>
+              <FileName>rc_potocol.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\PotocolLayer\rc_potocol.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -1385,6 +1400,16 @@
               <FileName>dji_pid.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Application\AlgorithmLayer\dji_pid.c</FilePath>
+            </File>
+            <File>
+              <FileName>rc_sensor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DeviceLayer\Sensor\rc_sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>device.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\DeviceLayer\device.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -37,7 +37,7 @@ void rc_sensor_update(rc_sensor_t *rc_sen, uint8_t *rxBuf)
 {
 	rc_sensor_info_t *rc_info = rc_sen->info;
 	
-	rc_info->ch0 = (rxBuf[0] | rxBuf[1] << 8) & 0x07FF;
+ 	rc_info->ch0 = (rxBuf[0] | rxBuf[1] << 8) & 0x07FF;
 	rc_info->ch0 -= 1024;
 	rc_info->ch1 = (rxBuf[1] >> 3 | rxBuf[2] << 5) & 0x07FF;
 	rc_info->ch1 -= 1024;

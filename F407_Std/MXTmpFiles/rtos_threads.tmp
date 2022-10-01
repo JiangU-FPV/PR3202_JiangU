@@ -1,0 +1,18 @@
+/* USER CODE BEGIN Header_StartMonitorTask */
+/**
+* @brief Function implementing the MonitorTask thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartMonitorTask */
+__weak void StartMonitorTask(void const * argument)
+{
+#t/* USER CODE BEGIN StartMonitorTask */
+#t/* Infinite loop */
+#tfor(;;)
+#t{
+#t#tosDelay(1);
+#t}
+#t/* USER CODE END StartMonitorTask */
+}
+#n

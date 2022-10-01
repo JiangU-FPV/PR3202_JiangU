@@ -1,0 +1,2 @@
+osThreadId defaultTaskHandle;
+osThreadId MonitorTaskHandle;

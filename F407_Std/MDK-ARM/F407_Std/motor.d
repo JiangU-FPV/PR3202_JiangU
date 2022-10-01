@@ -45,3 +45,5 @@ f407_std\motor.o: D:\TOOL\C51\ARM\ARMCC\Bin\..\include\stdbool.h
 f407_std\motor.o: ..\Application\DeviceLayer\Rpcan\rp_can.h
 f407_std\motor.o: ..\Application\AlgorithmLayer\dji_pid.h
 f407_std\motor.o: D:\TOOL\C51\ARM\ARMCC\Bin\..\include\stdio.h
+f407_std\motor.o: ..\Application\PotocolLayer\rc_potocol.h
+f407_std\motor.o: ..\Application\DeviceLayer\Sensor\rc_sensor.h

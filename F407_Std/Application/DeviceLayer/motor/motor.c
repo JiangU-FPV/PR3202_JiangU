@@ -11,6 +11,8 @@
 #include "stdio.h"
 #include "drv_can.h"
 #include "rp_can.h"
+#include "rc_potocol.h"
+#include "rc_sensor.h"
 #define ABS(x)	( (x>0) ? (x) : (-x) )
 /* Private variables ---------------------------------------------------------*/
 int16_t Send_CHAS_Array[4]; 
@@ -25,7 +27,7 @@ int32_t set_degree_watch;
 int32_t real_degree_watch;
 
 extern info_pack_t  info_pack;
-
+extern	rc_sensor_t	rc_sensor;
 /* Private functions ---------------------------------------------------------*/
 
 
@@ -55,7 +57,8 @@ void Motor_info_update(void)
 		Motor_TotalAngleCal(&M3508_data[i]);
 		
 		M3508_data[i].Pid_info_deg.f_cal_pid(&M3508_data[i].Pid_info_deg,M3508_data[i].total_angle); 
-		M3508_data[i].Pid_info.target = M3508_data[i].Pid_info_deg.output;
+		M3508_data[i].Pid_info.target = 10*rc_sensor.info->ch0;
+		
 		M3508_data[i].Pid_info.f_cal_pid(&M3508_data[i].Pid_info,M3508_data[i].rpm); 
 		
 		
