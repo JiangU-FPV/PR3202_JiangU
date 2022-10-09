@@ -65,6 +65,9 @@
 "f407_std\rc_sensor.o"
 "f407_std\device.o"
 "f407_std\rp_math.o"
+"f407_std\chassis.o"
+"f407_std\gimbal.o"
+"f407_std\judge.o"
 --library_type=microlib --strict --scatter "F407_Std\F407_Std.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

@@ -84,7 +84,7 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+			HAL_Init();
 
   /* USER CODE BEGIN Init */
 
@@ -111,12 +111,12 @@ int main(void)
   MX_UART5_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-	// 驱动层初始化
-	DRIVER_Init();
-	// 设备层初始化
+  // 驱动层初始化
+  DRIVER_Init();
+  // 设备层初始化
   DEV_Init();
   Motor_Init();
-//imu_sensor_init(&imu_sensor);
+  //imu_sensor_init(&imu_sensor);
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */

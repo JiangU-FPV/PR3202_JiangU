@@ -32,7 +32,7 @@ drv_uart_t	rc_sensor_driver = {
 
 // Ò£¿ØÆ÷ÐÅÏ¢
 rc_sensor_info_t 	rc_sensor_info = {
-	.offline_max_cnt = 60,
+	.offline_max_cnt = 50,
 };
 
 // Ò£¿ØÆ÷´«¸ÐÆ÷

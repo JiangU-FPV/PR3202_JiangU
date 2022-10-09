@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx,USE_STDPERIPH_DRIVER,ARM_MATH_CM4,__CC_ARM,ARM_MATH_M</Define>
               <Undefine></Undefine>
-              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\Drivers\CMSIS\DSP\Include;..\Application\PotocolLayer;..\Application\DeviceLayer\Imu;..\Application\DriverLayer;..\Application\DeviceLayer\Sensor;..\Application\ConfigLayer;..\Application\AlgorithmLayer;..\Application\DeviceLayer\motor;..\Application\DeviceLayer\Rpcan;..\Application\DeviceLayer</IncludePath>
+              <IncludePath>../Core/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Middlewares/Third_Party/FreeRTOS/Source/include;../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS;../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\Drivers\CMSIS\DSP\Include;..\Application\PotocolLayer;..\Application\DeviceLayer\Imu;..\Application\DriverLayer;..\Application\DeviceLayer\Sensor;..\Application\ConfigLayer;..\Application\AlgorithmLayer;..\Application\DeviceLayer\motor;..\Application\DeviceLayer\Rpcan;..\Application\DeviceLayer;..\Application\Module</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -1435,6 +1435,26 @@
         </Group>
         <Group>
           <GroupName>Application/Task</GroupName>
+        </Group>
+        <Group>
+          <GroupName>Application/Module</GroupName>
+          <Files>
+            <File>
+              <FileName>Chassis.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\Module\Chassis.c</FilePath>
+            </File>
+            <File>
+              <FileName>Gimbal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\Module\Gimbal.c</FilePath>
+            </File>
+            <File>
+              <FileName>Judge.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Application\Module\Judge.c</FilePath>
+            </File>
+          </Files>
         </Group>
         <Group>
           <GroupName>::CMSIS</GroupName>

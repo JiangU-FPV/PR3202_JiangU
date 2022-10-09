@@ -324,7 +324,7 @@ void BMI_Get_ACC(short *aax,short *aay,short *aaz)
     @halfT
         解算周期的一半，比如1ms解算1次则halfT为0.0005f
 */
-float Kp = 10.0f;    
+float Kp = 0.01f;    
 float Ki = 0.f;
 float halfT = 0.0005f;
 

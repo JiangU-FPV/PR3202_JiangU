@@ -30,6 +30,8 @@
 #include "motor.h"
 #include "drv_can.h"
 #include "rp_can.h"
+#include "Judge.h"
+#include "rc_sensor.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -51,8 +53,8 @@
 /* USER CODE BEGIN Variables */
 //个人数据
 //float watch_pitch, watch_roll, watch_yaw;
-//extern short gyrox, gyroy, gyroz;
-//extern short accx, accy, accz;
+extern short gyrox, gyroy, gyroz;
+
 //float lpfdata;
 //GM6020_data_t GM6020_test;
 
@@ -66,6 +68,7 @@ osThreadId MonitorTaskHandle;
 /* USER CODE BEGIN FunctionPrototypes */
 extern void BMI_Get_RawData(short *ggx,short *ggy,short *ggz,short *aax,short *aay,short *aaz);
 extern CAN_TxHeaderTypeDef CAN1_TxHander;
+extern imu_sensor_t imu_sensor;
 /* USER CODE END FunctionPrototypes */
 
 void StartDefaultTask(void const * argument);
@@ -143,6 +146,10 @@ void StartDefaultTask(void const * argument)
   /* Infinite loop */
   for(;;)
   {
+	  imu_sensor.update(&imu_sensor);
+	  
+	  rc_sensor.heart_beat(&rc_sensor);
+	  Mode_Judge();
 	  osDelay(1);
   }
   /* USER CODE END StartDefaultTask */
@@ -159,11 +166,12 @@ __weak void StartMonitorTask(void const * argument)
 {
   /* USER CODE BEGIN StartMonitorTask */
   /* Infinite loop */
-  for(;;)
+  for(;;)	
   {
 	  Motor_Send();
 	  //RP_Send();
 	  osDelay(1);
+	  
   }
   /* USER CODE END StartMonitorTask */
 }

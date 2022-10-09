@@ -23,6 +23,7 @@ dev_list_t dev_list = {
 //	.chas_mtr[CHAS_R] = &chassis_motor[CHAS_R],
 //	.chas_mtr[CHAS_F] = &chassis_motor[CHAS_F],
 //	.chas_mtr[CHAS_B] = &chassis_motor[CHAS_B],
+};
 
 /* Private functions ---------------------------------------------------------*/
 /* Exported functions --------------------------------------------------------*/

@@ -60,3 +60,5 @@ f407_std\freertos.o: ../Core/Inc/can.h
 f407_std\freertos.o: ..\Application\DriverLayer\drv_can.h
 f407_std\freertos.o: ..\Application\DeviceLayer\Rpcan\rp_can.h
 f407_std\freertos.o: ..\Application\AlgorithmLayer\dji_pid.h
+f407_std\freertos.o: ..\Application\Module\Judge.h
+f407_std\freertos.o: ..\Application\DeviceLayer\Sensor\rc_sensor.h
