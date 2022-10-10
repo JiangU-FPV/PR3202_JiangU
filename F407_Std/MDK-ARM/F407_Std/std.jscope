@@ -20,16 +20,10 @@
         </Windows>
         <SelectedSymbols>
             <Symbol>
-                <Options Name="real_speed_watch" Address="0x20000086" Type="short" TypeID="11" Size="2" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="-8476" YMaxSampled="8479" YAvgSampled="-82" Offset="4" ShowInGraph="0" ACCoupling="0" YOffset="200" IsAutoConfig="0" YResolution="1000" MaxValue="1000" File="..\Application\DeviceLayer\motor\motor.c" Scope="0" DrawStyle="0" />
+                <Options Name="YawOutput" Address="0x200001D0" Type="float" TypeID="1" Size="4" GraphColorRed="255" GraphColorGreen="215" GraphColorBlue="0" YMinSampled="-179" YMaxSampled="179" YAvgSampled="0" Offset="4" ShowInGraph="1" ACCoupling="0" YOffset="200" IsAutoConfig="1" YResolution="100" MaxValue="200" File="..\Application\Module\Gimbal.c" Scope="0" DrawStyle="0" />
             </Symbol>
             <Symbol>
-                <Options Name="set_speed_watch" Address="0x20000084" Type="short" TypeID="11" Size="2" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="-8000" YMaxSampled="8000" YAvgSampled="-85" Offset="6" ShowInGraph="0" ACCoupling="0" YOffset="200" IsAutoConfig="0" YResolution="1000" MaxValue="1000" File="..\Application\DeviceLayer\motor\motor.c" Scope="0" DrawStyle="0" />
-            </Symbol>
-            <Symbol>
-                <Options Name="set_degree_watch" Address="0x20000088" Type="int" TypeID="12" Size="4" GraphColorRed="102" GraphColorGreen="102" GraphColorBlue="178" YMinSampled="-200000" YMaxSampled="200000" YAvgSampled="-60499" Offset="8" ShowInGraph="1" ACCoupling="0" YOffset="400" IsAutoConfig="0" YResolution="50000" MaxValue="100000" File="..\Application\DeviceLayer\motor\motor.c" Scope="0" DrawStyle="0" />
-            </Symbol>
-            <Symbol>
-                <Options Name="real_degree_watch" Address="0x2000008C" Type="int" TypeID="12" Size="4" GraphColorRed="160" GraphColorGreen="32" GraphColorBlue="240" YMinSampled="-200591" YMaxSampled="210798" YAvgSampled="-57934" Offset="12" ShowInGraph="1" ACCoupling="0" YOffset="400" IsAutoConfig="0" YResolution="50000" MaxValue="40000" File="..\Application\DeviceLayer\motor\motor.c" Scope="0" DrawStyle="0" />
+                <Options Name="GYRO_YAW_DEG" Address="0x200001E4" Type="float" TypeID="1" Size="4" GraphColorRed="0" GraphColorGreen="255" GraphColorBlue="0" YMinSampled="-175" YMaxSampled="184" YAvgSampled="-27" Offset="8" ShowInGraph="1" ACCoupling="0" YOffset="200" IsAutoConfig="1" YResolution="100" MaxValue="200" File="..\Application\Module\Gimbal.c" Scope="0" DrawStyle="0" />
             </Symbol>
         </SelectedSymbols>
     </Project>

@@ -21,6 +21,7 @@ co_mode_t           Last_co_mode;
 extern M3508_data_t 	M3508_data[4];
 extern GM6020_data_t 	GM6020_data[2];
 extern rc_sensor_t	rc_sensor;
+
 /* Private functions ---------------------------------------------------------*/
 void Rx_check(void)
 {
@@ -83,6 +84,7 @@ void Mode_Judge(void)
 	if(rc_sensor.info->s1 == RC_SW_MID)
 	{
 		sys.co_mode=CO_MECH;
+
 	}
 	if(rc_sensor.info->s1 == RC_SW_UP)
 	{

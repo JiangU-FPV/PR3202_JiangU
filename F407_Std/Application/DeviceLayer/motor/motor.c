@@ -23,7 +23,7 @@ int16_t Send_GIMB_Array[4];
 M3508_data_t 	M3508_data[4];
 GM6020_data_t 	GM6020_data[2];
 
-int chassis_maxoutput = 7000;//8000;
+int chassis_maxoutput = 8000;//8000;
 int gimbal_maxoutput  = 20000;//20000;
 
 extern info_pack_t  info_pack;
@@ -35,7 +35,9 @@ extern float rc_rate;
 extern co_mode_t   Last_co_mode;
 /* Private functions ---------------------------------------------------------*/
 
-
+/**
+ *	@brief	电机初始化
+ */
 void Motor_Init(void)
 {
 	CAN1_Init();
@@ -45,6 +47,9 @@ void Motor_Init(void)
 	Last_co_mode=CO_GYRO;
 }
 
+/**
+ *	@brief	电机PID初始化
+ */
 void Motor_pid_init(void)
 {
 	for(int i=0;i<4;i++)
@@ -97,7 +102,6 @@ void Motor_info_update(void)
 		M3508_data[i].Pid_info.f_cal_pid(&M3508_data[i].Pid_info,M3508_data[i].rpm); 
 	}
 }
-
 
 /**
  *	@brief	电机发送
@@ -175,6 +179,7 @@ void GIMB_Motor_Pid_Clear(void)
 		GM6020_data[i].Imu_Out_Pid.err 		= 0;		
 	}
 }
+
 
 /**
  *	@brief	接收处理函数

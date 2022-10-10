@@ -13,24 +13,26 @@
 #include "motor.h"
 #include "dji_pid.h"
 #include "Judge.h"
+#include "Gimbal.h"
 /* Private variables ---------------------------------------------------------*/
 PID_TypeDef	Chassis_Pid_info;
-int MaxRPM = 6000;
+int MaxRPM = 8000;
 int M3508Output[4];
 extern GM6020_data_t 	GM6020_data[2];
 extern rc_sensor_t	rc_sensor;
 float  rc_rate;
 extern system_t sys;
+extern int MECH_YAW_DEG;
 /* Private functions ---------------------------------------------------------*/
 void chassis_init(void)
 {
 	pid_init(&Chassis_Pid_info);
-	Chassis_Pid_info.f_param_init(&Chassis_Pid_info,PID_Speed,400,20,10,0,8000,0,0.5,0,0);
+	Chassis_Pid_info.f_param_init(&Chassis_Pid_info,PID_Speed,350,20,10,0,8000,0,0.4,0,0);
 }
 
 void chassis_update(void)
 {
-	Chassis_Pid_info.target=2047;//YAW机械中值，双枪2047，单枪4777
+	Chassis_Pid_info.target=0;
 	
 	float speedOutput[4];
 	float X_speed = rc_sensor.info->ch2;
@@ -39,12 +41,12 @@ void chassis_update(void)
 	float maxspeed = 0;
 	if(sys.co_mode==CO_GYRO)//陀螺仪模式
 	{
-		Chassis_Pid_info.f_cal_pid(&Chassis_Pid_info,GM6020_data[0].angle);
+		Chassis_Pid_info.f_cal_pid(&Chassis_Pid_info,MECH_YAW_DEG);
 		z_speed = Chassis_Pid_info.output;
 	}
 	if(sys.co_mode==CO_MECH)//机械模式
 	{
-		z_speed = rc_sensor.info->ch0;
+		z_speed = rc_sensor.info->ch0*0.5f;
 	}
 	
 	rc_rate = MaxRPM/660;

@@ -22,9 +22,11 @@ int MECH_YAW_DEG;
 
 
 float PitRate = 0.00025f;  	//PIT速率
-float YawRate = 0.0004f;	//YAW速率
+float YawRate = 0.0006f;	//YAW速率
 float YawOutput = 0.0f;
 float PitOutput = 0.0f;
+float YAW_SPD = 0.0f;
+float PIT_SPD = 0.0f;
 
 extern system_t sys;
 extern imu_sensor_t imu_sensor;
@@ -44,16 +46,19 @@ void gimbal_update(void)
 	float yaw_speed   = -(rc_sensor.info->ch0);
 	
 	PitOutput += pit_speed*PitRate;
-	if(PitOutput>MaxPitchDeg)
-	   PitOutput=MaxPitchDeg;
-	if(PitOutput<MinPitchDeg)
-	   PitOutput=MinPitchDeg;
+	PIT_MOTOR_MECHMAX(pit_speed);//Pitch限幅
 	
 	YawOutput += yaw_speed*YawRate;
+	if(YawOutput>MaxYawDeg)
+	{
+	   YawOutput-=360.0f;
+	}
+	else if(YawOutput<MinYawDeg)
+	{
+	   YawOutput+=360.0f;
+	}
 	
 	MECH_YAW_DEG = GM6020_data[0].angle - MECH_YAW_MID;
-	
-	
 	if(MECH_YAW_DEG<-4096)
 	{
 		MECH_YAW_DEG+=8192;
@@ -63,21 +68,35 @@ void gimbal_update(void)
 		MECH_YAW_DEG-=8192;
 	}
 	
-	GYRO_YAW_DEG = imu_sensor.info->Longtime_imu_Array[1].imu_angle_sum-imu_deg_del;
+	GYRO_YAW_DEG = imu_sensor.info->yaw-imu_deg_del;
 	
+	YAW_SPD=0.1f*YAW_SPD+0.9f*gyroz;
+	PIT_SPD=0.1f*PIT_SPD+0.9f*gyroy;
 	if(sys.co_mode==CO_GYRO)//陀螺仪模式
 	{
 		//YAW轴
 		GM6020_data[0].Imu_Out_Pid.target = YawOutput;
+		
+		//判断误差大小和正反
+		if(GM6020_data[0].Imu_Out_Pid.target-GYRO_YAW_DEG>180.0f)
+		{
+			GM6020_data[0].Imu_Out_Pid.target-=360.0f;
+		}
+		else if(GM6020_data[0].Imu_Out_Pid.target-GYRO_YAW_DEG<-180.0f)
+		{
+			GM6020_data[0].Imu_Out_Pid.target+=360.0f;
+		}
+		
 		GM6020_data[0].Imu_Out_Pid.f_cal_pid(&GM6020_data[0].Imu_Out_Pid,GYRO_YAW_DEG); 
 		GM6020_data[0].Imu_Ins_Pid.target   = GM6020_data[0].Imu_Out_Pid.output;
-		GM6020_data[0].Imu_Ins_Pid.f_cal_pid(&GM6020_data[0].Imu_Ins_Pid,gyroz); 		
+		GM6020_data[0].Imu_Ins_Pid.f_cal_pid(&GM6020_data[0].Imu_Ins_Pid,YAW_SPD); 		
 		GM6020_data[0].send_voltage = GM6020_data[0].Imu_Ins_Pid.output;
+		
 		//PITCH轴
 		GM6020_data[1].Imu_Out_Pid.target = PitOutput;
 		GM6020_data[1].Imu_Out_Pid.f_cal_pid(&GM6020_data[1].Imu_Out_Pid,imu_sensor.info->pitch);
 		GM6020_data[1].Imu_Ins_Pid.target   = GM6020_data[1].Imu_Out_Pid.output;
-		GM6020_data[1].Imu_Ins_Pid.f_cal_pid(&GM6020_data[1].Imu_Ins_Pid, gyroy); 
+		GM6020_data[1].Imu_Ins_Pid.f_cal_pid(&GM6020_data[1].Imu_Ins_Pid,PIT_SPD); 
 		GM6020_data[1].send_voltage = GM6020_data[1].Imu_Ins_Pid.output;
 	}
 	if(sys.co_mode==CO_MECH)//机械模式
@@ -86,22 +105,38 @@ void gimbal_update(void)
 		GM6020_data[0].Mec_Out_Pid.target = 0;
 		GM6020_data[0].Mec_Out_Pid.f_cal_pid(&GM6020_data[0].Mec_Out_Pid,MECH_YAW_DEG); 
 		GM6020_data[0].Mec_Ins_Pid.target   = GM6020_data[0].Mec_Out_Pid.output;
-		GM6020_data[0].Mec_Ins_Pid.f_cal_pid(&GM6020_data[0].Mec_Ins_Pid,gyroz); 
+		GM6020_data[0].Mec_Ins_Pid.f_cal_pid(&GM6020_data[0].Mec_Ins_Pid,YAW_SPD); 
 		GM6020_data[0].send_voltage = GM6020_data[0].Mec_Ins_Pid.output;
 		//PITCH轴
 		GM6020_data[1].Mec_Out_Pid.target = MECH_PIT_MID+PitOutput*23;
 		GM6020_data[1].Mec_Out_Pid.f_cal_pid(&GM6020_data[1].Mec_Out_Pid,GM6020_data[1].angle);
 		GM6020_data[1].Mec_Ins_Pid.target   = GM6020_data[1].Mec_Out_Pid.output;
-		GM6020_data[1].Mec_Ins_Pid.f_cal_pid(&GM6020_data[1].Mec_Ins_Pid,gyroy); 
+		GM6020_data[1].Mec_Ins_Pid.f_cal_pid(&GM6020_data[1].Mec_Ins_Pid,PIT_SPD); 
 		GM6020_data[1].send_voltage = GM6020_data[1].Mec_Ins_Pid.output;
 	}
 }
 
+
+
+void PIT_MOTOR_MECHMAX(float pit_speed)//机械限幅
+{
+	if(GM6020_data[1].angle<5000&&pit_speed<0)
+	{
+		PitOutput=MinPitchDeg;
+	}
+	if(GM6020_data[1].angle>7000&&pit_speed>0)
+	{
+		PitOutput=MaxPitchDeg;
+	}
+}
+
+
+
 void Gimbal_Init(void)
 {
 	YawOutput = 0.0f;
-	//PitOutput = 0.0f;
-	imu_deg_del = imu_sensor.info->Longtime_imu_Array[1].imu_angle_sum;
+	PitOutput = 0.0f;
+	imu_deg_del = imu_sensor.info->yaw;
 	GIMB_Motor_Pid_Clear();
 	//imu_sensor.init(&imu_sensor);
 }

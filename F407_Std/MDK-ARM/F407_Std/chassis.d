@@ -49,3 +49,4 @@ f407_std\chassis.o: ..\Application\DeviceLayer\Rpcan\rp_can.h
 f407_std\chassis.o: ..\Application\AlgorithmLayer\dji_pid.h
 f407_std\chassis.o: ..\Application\AlgorithmLayer\dji_pid.h
 f407_std\chassis.o: ..\Application\Module\Judge.h
+f407_std\chassis.o: ..\Application\Module\Gimbal.h
