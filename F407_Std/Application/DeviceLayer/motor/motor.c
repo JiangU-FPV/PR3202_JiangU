@@ -24,7 +24,7 @@ M3508_data_t 	M3508_data[4];
 GM6020_data_t 	GM6020_data[2];
 
 int chassis_maxoutput = 8000;//8000;
-int gimbal_maxoutput  = 20000;//20000;
+int gimbal_maxoutput  = 0;//20000;
 
 extern info_pack_t  info_pack;
 
@@ -99,7 +99,7 @@ void Motor_info_update(void)
 		//Motor_TotalAngleCal_M3508(&M3508_data[i]);
 		//M3508_data[i].Pid_info_deg.f_cal_pid(&M3508_data[i].Pid_info_deg,M3508_data[i].total_angle); //3508½Ç¶È»·
 		M3508_data[i].Pid_info.target = M3508Output[i];
-		M3508_data[i].Pid_info.f_cal_pid(&M3508_data[i].Pid_info,M3508_data[i].rpm); 
+		//M3508_data[i].Pid_info.f_cal_pid(&M3508_data[i].Pid_info,M3508_data[i].rpm); 
 	}
 }
 
@@ -115,6 +115,10 @@ void Motor_Send(void)
 	}
 	Rx_check();                                                         //Ò£¿ØÆ÷¼ì²â
 	Motor_check();														//µç»ú¼ì²â
+	for(int i=0;i<4;i++)
+	{
+		M3508_data[i].Pid_info.f_cal_pid(&M3508_data[i].Pid_info,M3508_data[i].rpm); 
+	}
 	for (int i = 0; i < 4; i++)
 	{
 		Send_CHAS_Array[i] = M3508_data[i].send_current;

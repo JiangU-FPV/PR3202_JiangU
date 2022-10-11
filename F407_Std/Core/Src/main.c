@@ -115,6 +115,7 @@ int main(void)
   DRIVER_Init();
   // 设备层初始化
   DEV_Init();
+
   Motor_Init();
   //imu_sensor_init(&imu_sensor);
   /* USER CODE END 2 */

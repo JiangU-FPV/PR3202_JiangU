@@ -5,4 +5,5 @@ void Rx_check(void);
 void Rx_Loss_Hand(void);
 void Rc_Return_Mid(void);
 void Mode_Judge(void);
+void Angle_Logic_Judge(void);
 #endif

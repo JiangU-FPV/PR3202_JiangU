@@ -14,6 +14,7 @@
 #include "dji_pid.h"
 #include "Judge.h"
 #include "Gimbal.h"
+#include "math.h"
 /* Private variables ---------------------------------------------------------*/
 PID_TypeDef	Chassis_Pid_info;
 int MaxRPM = 8000;
@@ -23,11 +24,13 @@ extern rc_sensor_t	rc_sensor;
 float  rc_rate;
 extern system_t sys;
 extern int MECH_YAW_DEG;
+extern bool Top_mode;
+
 /* Private functions ---------------------------------------------------------*/
 void chassis_init(void)
 {
 	pid_init(&Chassis_Pid_info);
-	Chassis_Pid_info.f_param_init(&Chassis_Pid_info,PID_Speed,350,20,10,0,8000,0,0.4,0,0);
+	Chassis_Pid_info.f_param_init(&Chassis_Pid_info,PID_Speed,450,20,10,0,8000,0,0.4,0,10);
 }
 
 void chassis_update(void)
@@ -37,18 +40,34 @@ void chassis_update(void)
 	float speedOutput[4];
 	float X_speed = rc_sensor.info->ch2;
 	float Y_speed = rc_sensor.info->ch3;
-	float z_speed = Chassis_Pid_info.output;
+	float X_speed_Top;
+	float Y_speed_Top;
+	float z_speed;
 	float maxspeed = 0;
+	float Top_deg;
 	if(sys.co_mode==CO_GYRO)//陀螺仪模式
 	{
-		Chassis_Pid_info.f_cal_pid(&Chassis_Pid_info,MECH_YAW_DEG);
-		z_speed = Chassis_Pid_info.output;
+		if(Top_mode==false)//跟随
+		{
+			Chassis_Pid_info.f_cal_pid(&Chassis_Pid_info,MECH_YAW_DEG);
+			z_speed = Chassis_Pid_info.output;
+		}
+		else if(Top_mode==true)//小陀螺
+		{
+			Top_deg=(MECH_YAW_DEG)/4096.0f*3.14159f;
+			X_speed_Top = (X_speed *cos(Top_deg)-Y_speed*sin(Top_deg));
+			Y_speed_Top = (Y_speed*cos(Top_deg) +X_speed*sin(Top_deg));
+			X_speed=X_speed_Top;
+			Y_speed=Y_speed_Top;
+			z_speed=200; 
+		}
 	}
 	if(sys.co_mode==CO_MECH)//机械模式
 	{
-		z_speed = rc_sensor.info->ch0*0.5f;
+		z_speed = rc_sensor.info->ch0*0.7f;
 	}
 	
+	//麦轮解算
 	rc_rate = MaxRPM/660;
 	z_speed = z_speed * rc_rate;
 	

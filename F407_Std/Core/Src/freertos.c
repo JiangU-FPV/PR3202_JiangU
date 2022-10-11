@@ -147,7 +147,6 @@ void StartDefaultTask(void const * argument)
   for(;;)
   {
 	  imu_sensor.update(&imu_sensor);
-	  
 	  rc_sensor.heart_beat(&rc_sensor);
 	  Mode_Judge();
 	  osDelay(1);

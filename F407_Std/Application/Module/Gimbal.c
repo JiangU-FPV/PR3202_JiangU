@@ -22,7 +22,7 @@ int MECH_YAW_DEG;
 
 
 float PitRate = 0.00025f;  	//PIT速率
-float YawRate = 0.0006f;	//YAW速率
+float YawRate = 0.0008f;	//YAW速率
 float YawOutput = 0.0f;
 float PitOutput = 0.0f;
 float YAW_SPD = 0.0f;
@@ -120,11 +120,11 @@ void gimbal_update(void)
 
 void PIT_MOTOR_MECHMAX(float pit_speed)//机械限幅
 {
-	if(GM6020_data[1].angle<5000&&pit_speed<0)
+	if(GM6020_data[1].angle<5931&&pit_speed<0)
 	{
 		PitOutput=MinPitchDeg;
 	}
-	if(GM6020_data[1].angle>7000&&pit_speed>0)
+	if(GM6020_data[1].angle>7259&&pit_speed>0)
 	{
 		PitOutput=MaxPitchDeg;
 	}

@@ -50,3 +50,4 @@ f407_std\chassis.o: ..\Application\AlgorithmLayer\dji_pid.h
 f407_std\chassis.o: ..\Application\AlgorithmLayer\dji_pid.h
 f407_std\chassis.o: ..\Application\Module\Judge.h
 f407_std\chassis.o: ..\Application\Module\Gimbal.h
+f407_std\chassis.o: D:\TOOL\C51\ARM\ARMCC\Bin\..\include\math.h
