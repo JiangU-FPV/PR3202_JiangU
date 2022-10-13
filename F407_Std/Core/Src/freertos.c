@@ -66,8 +66,8 @@ osThreadId MonitorTaskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
-extern void BMI_Get_RawData(short *ggx,short *ggy,short *ggz,short *aax,short *aay,short *aaz);
-extern CAN_TxHeaderTypeDef CAN1_TxHander;
+//extern void BMI_Get_RawData(short *ggx,short *ggy,short *ggz,short *aax,short *aay,short *aaz);
+//extern CAN_TxHeaderTypeDef CAN1_TxHander;
 extern imu_sensor_t imu_sensor;
 /* USER CODE END FunctionPrototypes */
 

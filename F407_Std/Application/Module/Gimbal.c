@@ -16,8 +16,9 @@
 #include "imu_potocol.h"
 #include "math.h"
 /* Private variables ---------------------------------------------------------*/
+
 int MECH_PIT_MID = 6800;	//PIT机械中值
-int MECH_YAW_MID = 2047;	//YAW机械中值，双枪2047，单枪4777
+int MECH_YAW_MID = YAW_MID;
 int MECH_YAW_DEG;
 
 
@@ -33,10 +34,8 @@ extern imu_sensor_t imu_sensor;
 extern short gyrox, gyroy, gyroz;
 extern rc_sensor_t	  rc_sensor;
 extern GM6020_data_t  GM6020_data[2];
+extern co_angle_logic_t co_angle_logic;//头尾状态
 
-float MIC_SPD_P=0.0f;
-float MIC_SPD_I=0.0f;
-float MIC_DEG_P=0.0f;
 float GYRO_YAW_DEG;
 float imu_deg_del;
 /* Private functions ---------------------------------------------------------*/
@@ -103,6 +102,7 @@ void gimbal_update(void)
 	{
 		//YAW轴
 		GM6020_data[0].Mec_Out_Pid.target = 0;
+
 		GM6020_data[0].Mec_Out_Pid.f_cal_pid(&GM6020_data[0].Mec_Out_Pid,MECH_YAW_DEG); 
 		GM6020_data[0].Mec_Ins_Pid.target   = GM6020_data[0].Mec_Out_Pid.output;
 		GM6020_data[0].Mec_Ins_Pid.f_cal_pid(&GM6020_data[0].Mec_Ins_Pid,YAW_SPD); 
@@ -120,11 +120,11 @@ void gimbal_update(void)
 
 void PIT_MOTOR_MECHMAX(float pit_speed)//机械限幅
 {
-	if(GM6020_data[1].angle<5931&&pit_speed<0)
+	if(GM6020_data[1].angle<5931&&pit_speed<=0)
 	{
 		PitOutput=MinPitchDeg;
 	}
-	if(GM6020_data[1].angle>7259&&pit_speed>0)
+	if(GM6020_data[1].angle>7259&&pit_speed>=0)
 	{
 		PitOutput=MaxPitchDeg;
 	}
@@ -139,6 +139,13 @@ void Gimbal_Init(void)
 	imu_deg_del = imu_sensor.info->yaw;
 	GIMB_Motor_Pid_Clear();
 	//imu_sensor.init(&imu_sensor);
+}
+
+void GimMode_Switch(void)
+{
+	YawOutput = 0.0f;
+	imu_deg_del = imu_sensor.info->yaw;
+	GIMB_Motor_Pid_Clear();
 }
 
 

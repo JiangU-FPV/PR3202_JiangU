@@ -13,10 +13,12 @@
 #include "rc_sensor.h"
 #include "rp_config.h"
 #include "Gimbal.h"
+#include "shoot_motor.h"
 /* Private variables ---------------------------------------------------------*/
 system_t sys;
 bool lock_ok = false;
 bool Top_mode = false;
+bool Last_Top_mode = false;
 dev_work_state_t    Last_rc_state = DEV_OFFLINE;//上一次的在线状态
 co_mode_t           Last_co_mode;//上一次的车辆状态
 co_angle_logic_t co_angle_logic;//头尾状态
@@ -24,6 +26,7 @@ extern M3508_data_t 	M3508_data[4];
 extern GM6020_data_t 	GM6020_data[2];
 extern rc_sensor_t	rc_sensor;
 extern int MECH_YAW_DEG;
+extern int MECH_YAW_MID;
 /* Private functions ---------------------------------------------------------*/
 void Rx_check(void)
 {
@@ -66,6 +69,7 @@ void Rx_Loss_Hand(void)
 		ALL_Motor_Pid_Clear();  //PID清零
 	}
 	GIMBAL_Motor_Cut();//云台直接卸力
+	Shot_Motor_Cut();
 	Gimbal_Init();
 
 }
@@ -85,10 +89,11 @@ void Rc_Return_Mid(void)
 void Angle_Logic_Judge(void)
 {
 	if(MECH_YAW_DEG<2048&&MECH_YAW_DEG>-2048)
+	{
 		co_angle_logic = LOGIC_FRONT;
+	}
 	else
 		co_angle_logic = LOGIC_BACK;
-
 }
 
 void Mode_Judge(void)
@@ -96,6 +101,8 @@ void Mode_Judge(void)
 	if(rc_sensor.info->s1 == RC_SW_DOWN)
 	{
 		sys.co_mode=CO_MECH;
+		Top_mode = false;
+		co_angle_logic = LOGIC_FRONT;
 	}
 	if(rc_sensor.info->s1 == RC_SW_MID)
 	{
@@ -109,11 +116,18 @@ void Mode_Judge(void)
 	{
 		Top_mode = false;
 	}
+	if(Last_Top_mode==true&&Top_mode==false)
+	{
+			Angle_Logic_Judge();
+	}
+	
+	Last_Top_mode=Top_mode;
+	
+	
 	if(sys.co_mode != Last_co_mode)
 	{
 		GIMB_Motor_Pid_Clear();     //切换模式清除云台PID
-		Gimbal_Init();
-		Angle_Logic_Judge();
+		GimMode_Switch();
 	}
 	Last_co_mode = sys.co_mode;
 	

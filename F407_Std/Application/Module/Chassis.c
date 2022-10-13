@@ -25,7 +25,7 @@ float  rc_rate;
 extern system_t sys;
 extern int MECH_YAW_DEG;
 extern bool Top_mode;
-
+extern co_angle_logic_t co_angle_logic;//Í·Î²×´Ì¬
 /* Private functions ---------------------------------------------------------*/
 void chassis_init(void)
 {
@@ -35,28 +35,56 @@ void chassis_init(void)
 
 void chassis_update(void)
 {
-	Chassis_Pid_info.target=0;
-	
 	float speedOutput[4];
-	float X_speed = rc_sensor.info->ch2;
-	float Y_speed = rc_sensor.info->ch3;
+	float X_speed;
+	float Y_speed;
+	float X_speed_INI= rc_sensor.info->ch2;
+	float Y_speed_INI= rc_sensor.info->ch3;
 	float X_speed_Top;
 	float Y_speed_Top;
 	float z_speed;
 	float maxspeed = 0;
 	float Top_deg;
+	if(co_angle_logic==LOGIC_FRONT)
+	{
+		X_speed = rc_sensor.info->ch2;
+		Y_speed = rc_sensor.info->ch3;
+		Chassis_Pid_info.target=0;
+	}
+	else if(co_angle_logic==LOGIC_BACK)
+	{
+		X_speed = -(rc_sensor.info->ch2);
+		Y_speed = -(rc_sensor.info->ch3);
+		Chassis_Pid_info.target=0;
+	}
 	if(sys.co_mode==CO_GYRO)//ÍÓÂÝÒÇÄ£Ê½
 	{
 		if(Top_mode==false)//¸úËæ
 		{
-			Chassis_Pid_info.f_cal_pid(&Chassis_Pid_info,MECH_YAW_DEG);
+			if(co_angle_logic==LOGIC_BACK)
+			{
+				if(MECH_YAW_DEG<0)
+				{
+					MECH_YAW_DEG+=4096;
+				}
+				else if(MECH_YAW_DEG>0)
+				{
+					MECH_YAW_DEG-=4096;
+					
+				}
+				Chassis_Pid_info.f_cal_pid(&Chassis_Pid_info,MECH_YAW_DEG);
+			}
+			else if(co_angle_logic==LOGIC_FRONT)
+			{
+				Chassis_Pid_info.f_cal_pid(&Chassis_Pid_info,MECH_YAW_DEG);
+			}
 			z_speed = Chassis_Pid_info.output;
 		}
 		else if(Top_mode==true)//Ð¡ÍÓÂÝ
 		{
 			Top_deg=(MECH_YAW_DEG)/4096.0f*3.14159f;
-			X_speed_Top = (X_speed *cos(Top_deg)-Y_speed*sin(Top_deg));
-			Y_speed_Top = (Y_speed*cos(Top_deg) +X_speed*sin(Top_deg));
+			X_speed_Top = (X_speed_INI*cos(Top_deg) - Y_speed_INI*sin(Top_deg));
+			Y_speed_Top = (Y_speed_INI*cos(Top_deg) + X_speed_INI*sin(Top_deg));
 			X_speed=X_speed_Top;
 			Y_speed=Y_speed_Top;
 			z_speed=200; 

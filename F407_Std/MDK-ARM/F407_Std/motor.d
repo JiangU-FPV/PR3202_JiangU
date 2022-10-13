@@ -48,3 +48,5 @@ f407_std\motor.o: D:\TOOL\C51\ARM\ARMCC\Bin\..\include\stdio.h
 f407_std\motor.o: ..\Application\Module\Chassis.h
 f407_std\motor.o: ..\Application\Module\Gimbal.h
 f407_std\motor.o: ..\Application\Module\Judge.h
+f407_std\motor.o: ..\Application\DeviceLayer\motor\shoot_motor.h
+f407_std\motor.o: ..\Application\Module\Shoot.h

@@ -28,6 +28,9 @@ typedef struct
 	int16_t 	rpm;		//转速
 	int16_t 	current;	//转矩电流
 	
+	PID_TypeDef	Spd_PID;
+	PID_TypeDef	Deg_PID;
+	
 	int32_t 	total_angle;
 	int32_t		round_cnt;
 	uint16_t 	last_angle;
@@ -96,8 +99,9 @@ void CHASSIS_Motor_Update(M3508_data_t *M3508_data, uint8_t *rxBuf);
 void GIMBAL_Motor_Update (GM6020_data_t *GM6020_data, uint8_t *rxBuf);
 void Motor_Send (void);
 void Motor_check(void);
-void Motor_TotalAngleCal_M3508 (M3508_data_t *M3508_data);
+void Motor_TotalAngleCal_M3508 (M3508_data_t  *M3508_data );
 void Motor_TotalAngleCal_GM6020(GM6020_data_t *GM6020_data);
+void Motor_TotalAngleCal_M2006 (M2006_data_t  *M2006_data );
 void CHASSIS_Motor_Cut(void);
 void GIMBAL_Motor_Cut (void);
 void ALL_Motor_Pid_Clear (void);

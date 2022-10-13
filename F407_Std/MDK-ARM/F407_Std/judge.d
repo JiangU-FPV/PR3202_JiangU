@@ -48,3 +48,4 @@ f407_std\judge.o: ..\Application\AlgorithmLayer\dji_pid.h
 f407_std\judge.o: ..\Application\PotocolLayer\rc_potocol.h
 f407_std\judge.o: ..\Application\DeviceLayer\Sensor\rc_sensor.h
 f407_std\judge.o: ..\Application\Module\Gimbal.h
+f407_std\judge.o: ..\Application\DeviceLayer\motor\shoot_motor.h

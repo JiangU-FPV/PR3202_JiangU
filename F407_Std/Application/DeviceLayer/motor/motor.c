@@ -5,9 +5,6 @@
  * @date        27-September-2022
  * @brief       Robomaster motor device(M3508 and GM6020, Based on HAL).
  */
-//机械中值
-//GM6020_data[0].Pid_info_deg.target=4777;//单枪
-//GM6020_data[0].Pid_info_deg.target=2046;//双枪
 /* Includes ------------------------------------------------------------------*/
 #include "motor.h"
 #include "stdio.h"
@@ -16,15 +13,22 @@
 #include "Chassis.h"
 #include "Gimbal.h"
 #include "Judge.h"
+#include "shoot_motor.h"
+#include "Shoot.h"
 /* Private variables ---------------------------------------------------------*/
+int can_watch;
 int16_t Send_CHAS_Array[4]; 
 int16_t Send_GIMB_Array[4]; 
+int16_t Send_SHOT_Array[4]; 
 
 M3508_data_t 	M3508_data[4];
 GM6020_data_t 	GM6020_data[2];
 
+extern M2006_data_t Shot_Motor_BOX;
+extern M3508_data_t Shot_Motor_FRIC[2];
+
 int chassis_maxoutput = 8000;//8000;
-int gimbal_maxoutput  = 0;//20000;
+int gimbal_maxoutput  = 20000;//20000;
 
 extern info_pack_t  info_pack;
 
@@ -44,6 +48,7 @@ void Motor_Init(void)
 	CAN2_Init();
 	chassis_init();
 	Motor_pid_init();
+	Shot_Motor_Init();
 	Last_co_mode=CO_GYRO;
 }
 
@@ -101,6 +106,7 @@ void Motor_info_update(void)
 		M3508_data[i].Pid_info.target = M3508Output[i];
 		//M3508_data[i].Pid_info.f_cal_pid(&M3508_data[i].Pid_info,M3508_data[i].rpm); 
 	}
+	Motor_TotalAngleCal_M2006(&Shot_Motor_BOX);
 }
 
 /**
@@ -109,12 +115,23 @@ void Motor_info_update(void)
 void Motor_Send(void)
 {            
 	Motor_info_update();                                                //计算电机输出值
+	SHOT_CTRL();
 	for (int i = 0; i < 4; i++)
 	{
 		M3508_data[i].send_current=	M3508_data[i].Pid_info.output;      //先赋值
 	}
+	
+	for (int i = 0; i < 2; i++)
+	{
+		Shot_Motor_FRIC[i].send_current = Shot_Motor_FRIC[i].Pid_info.output;
+		Shot_Motor_FRIC[i].off_cnt++;
+	}
+	Shot_Motor_BOX.send_current         = Shot_Motor_BOX.Spd_PID.output;
+	Shot_Motor_BOX.off_cnt++;
+	
 	Rx_check();                                                         //遥控器检测
 	Motor_check();														//电机检测
+	Shot_Motor_check();
 	for(int i=0;i<4;i++)
 	{
 		M3508_data[i].Pid_info.f_cal_pid(&M3508_data[i].Pid_info,M3508_data[i].rpm); 
@@ -129,8 +146,17 @@ void Motor_Send(void)
 		Send_GIMB_Array[i] = GM6020_data[i].send_voltage;
 		GM6020_data[i].off_cnt++;
 	}
+	
+	
+
+	//发送数组赋值
+	Send_SHOT_Array[0]=Shot_Motor_FRIC[0].send_current;
+	Send_SHOT_Array[1]=Shot_Motor_FRIC[1].send_current;
+	Send_SHOT_Array[2]=Shot_Motor_BOX.send_current;
+	//发送
 	CAN_SendData(&hcan1,CHASSIS_MOTOR_STD,Send_CHAS_Array);
 	CAN_SendData(&hcan1,GIMBAL_MOTOR_STD ,Send_GIMB_Array);
+	CAN_SendData(&hcan2,SHOT_MOTOR_STD	 ,Send_SHOT_Array);
 }
 
 /**
@@ -217,9 +243,22 @@ void CAN1_rxDataHandler(uint32_t canId, uint8_t *rxBuf)
 }	
 void CAN2_rxDataHandler(uint32_t canId, uint8_t *rxBuf)
 {
+	can_watch=canId;
 	if(canId==RP_CAN_ID_1)
 	{
 		RP_CAN_Update(&info_pack,rxBuf);
+	}
+	if(canId==Shot_Motor_BOX_ID)
+	{
+		Shot_Motor_BOX_Update(&Shot_Motor_BOX,rxBuf);
+	}
+	if(canId==Shot_Motor_FRIC_L_ID)
+	{
+		Shot_Motor_FRIC_Update(&Shot_Motor_FRIC[0],rxBuf);
+	}
+	if(canId==Shot_Motor_FRIC_R_ID)
+	{
+		Shot_Motor_FRIC_Update(&Shot_Motor_FRIC[1],rxBuf);
 	}
 }
 
@@ -271,7 +310,9 @@ void Motor_check(void)
 			GM6020_data[i].send_voltage = 0;
 		}
 	}
+	
 }
+
 
 /**
  *	@brief	电机角度计算
@@ -327,7 +368,31 @@ void Motor_TotalAngleCal_GM6020(GM6020_data_t *GM6020_data)
 	GM6020_data->total_angle += delta;
 	GM6020_data->last_angle = GM6020_data->angle;
 }
-
+void Motor_TotalAngleCal_M2006(M2006_data_t *M2006_data)
+{
+	if(M2006_data->angle-M2006_data->last_angle>4096){
+		M2006_data->round_cnt--;
+	}
+	else if (M2006_data->angle-M2006_data->last_angle< -4096){
+		M2006_data->round_cnt ++;
+	}
+	M2006_data->total_angle = M2006_data->round_cnt * 8192 + M2006_data->angle	- M2006_data->offset_angle;
+	int res1, res2, delta;
+	if(M2006_data->angle < M2006_data->last_angle){			//可能的情况
+		res1 = M2006_data->angle + 8192 - M2006_data->last_angle;	//正转，delta=+
+		res2 = M2006_data->angle - M2006_data->last_angle;				//反转	delta=-
+	}else{	//angle > last
+		res1 = M2006_data->angle - 8192 - M2006_data->last_angle ;//反转	delta -
+		res2 = M2006_data->angle - M2006_data->last_angle;				//正转	delta +
+	}
+	//不管正反转，肯定是转的角度小的那个是真的
+	if(ABS(res1)<ABS(res2))
+		delta = res1;
+	else
+		delta = res2;
+	M2006_data->total_angle += delta;
+	M2006_data->last_angle = M2006_data->angle;
+}
 /**
  *	@brief	电机获取转子角度、转速、电流
  */
@@ -352,40 +417,3 @@ int16_t CAN_GetMotorCurrent(uint8_t *rxData)
 
 
 
-/**
- *	@brief	旧函数
- */
-////电机更新函数
-//void Motor_Update(int16_t speed,CAN_TxHeaderTypeDef CAN1_TX)
-//{
-//	uint8_t TxData[8]={0};
-//	
-//	TxData[0]= speed>>8;
-//	TxData[1]= speed;
-//	HAL_CAN_AddTxMessage(&hcan1,&CAN1_TX,TxData,0);
-//	
-//}
-
-//电机接收函数
-//void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
-//{
-//	if(hcan->Instance==CAN1)
-//	{
-//		HAL_CAN_GetRxMessage(&hcan1,CAN_FILTER_FIFO0,&RxHeader,motor_recvBuf);//获取数据
-//		
-//		dog=0;
-//	}
-//}	
-
-///**
-// *	@brief	CAN 发送单独数据
-// */
-//void CAN_SendSingleData(drv_can_t *drv, int16_t txData)
-//{
-//	int16_t txArr[4] = {0, 0, 0, 0};
-//	txArr[drv->drv_id] = txData;
-//	if(drv->type == DRV_CAN1)
-//		CAN1_SendData(drv->std_id, txArr);
-//	else if(drv->type == DRV_CAN2)
-//		CAN2_SendData(drv->std_id, txArr);
-//}
